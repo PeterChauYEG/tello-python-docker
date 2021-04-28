@@ -1,0 +1,27 @@
+{
+  "name": "tello",
+  "version": "1.0.0",
+  "description": "## Purpose - learn to control a dji / rzye robotics drone",
+  "main": "index.js",
+  "scripts": {
+    "build-image": "docker build -t tello .",
+
+    "start:video-deps": "open -a Xquartz && socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:'$DISPLAY'",
+
+    "start-container": "docker run -p 8889:8889 -p 11111:11111/udp -e DISPLAY=192.168.10.2:0 -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v ${PWD}:/usr/src/app/ -it tello bash",
+
+    "copy-deps:video": "cp ../libh264decoder.so Tello-Python/Tello_Video && cp ../model/pose_iter_160000.caffemodel /usr/src/app/Tello-Python/Tello_Video/model/pose/mpi",
+
+    "copy-deps:pose": "cp ../libh264decoder.so Tello-Python/Tello_Video_With_Pose_Recognition && cp ../model/pose_iter_160000.caffemodel /usr/src/app/Tello-Python/Tello_Video_With_Pose_Recognition/model/pose/mpi"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PeterChauYEG/tello-python-docker.git"
+  },
+  "author": "peter chau",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PeterChauYEG/tello-python-docker/issues"
+  },
+  "homepage": "https://github.com/PeterChauYEG/tello-python-docker#readme"
+}
