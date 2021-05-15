@@ -12,7 +12,9 @@
 
     "copy-deps:video": "cp ../libh264decoder.so Tello-Python/Tello_Video && cp ../model/pose_iter_160000.caffemodel /usr/src/app/Tello-Python/Tello_Video/model/pose/mpi",
 
-    "copy-deps:pose": "cp ../libh264decoder.so Tello-Python/Tello_Video_With_Pose_Recognition && cp ../model/pose_iter_160000.caffemodel /usr/src/app/Tello-Python/Tello_Video_With_Pose_Recognition/model/pose/mpi"
+    "copy-deps:pose": "cp ../libh264decoder.so Tello-Python/Tello_Video_With_Pose_Recognition && cp ../model/pose_iter_160000.caffemodel /usr/src/app/Tello-Python/Tello_Video_With_Pose_Recognition/model/pose/mpi",
+
+    "copy-deps:2": "cp ../libh264decoder.so Tello-Python/Tello_Video_With_Pose_Recognition_2 && cp ../model/pose_iter_160000.caffemodel /usr/src/app/Tello-Python/Tello_Video_With_Pose_Recognition_2/model/pose/mpi"
   },
   "repository": {
     "type": "git",

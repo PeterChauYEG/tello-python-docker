@@ -1,13 +1,9 @@
-from PIL import Image
-from PIL import ImageTk
-import Tkinter as tki
-from Tkinter import Toplevel, Scale
 import threading
 import datetime
 import cv2
 import os
 import time
-from tello_pose import Tello_Pose
+from pose import Tello_Pose
 import platform
 
 class TelloUI:
@@ -446,7 +442,7 @@ class TelloUI:
         return self.tello.move_up(dist)
 
     def telloDown(self, dist):
-        return self.tello.move_up(dist)
+        return self.tello.move_down(dist)
 
     def updateTrackBar(self):
         self.my_tello_hand.setThr(self.hand_thr_bar.get())

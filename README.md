@@ -91,3 +91,31 @@ Based on `https://github.com/dji-sdk/Tello-Python`
 - inside the container:
     - copy deps: `yarn copy-deps:pose`
     - start: `cd ./Tello-Python/Tello_Video_With_Pose_Recognition && python main.py`
+
+-----------------------------
+
+## Tello Video with pose recognition - 2.0
+- based on `https://github.com/dji-sdk/Tello-Python`
+
+### Setup Mac GUI proxy
+- `brew install socat`
+- `brew install xquartz`
+
+### Run
+- `socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\"`
+- `open -a Xquartz`
+
+- turn on tello and connect to it's wifi network on your laptop
+
+- get your ip address:
+  - `ifconfig en0`
+
+- `yarn start-container`
+
+- inside the container:
+  - copy deps: `yarn copy-deps:2`
+  - start: `cd ./Tello-Python/Tello_Video_With_Pose_Recognition_2 && python index.py`
+  
+
+## References 
+https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc
