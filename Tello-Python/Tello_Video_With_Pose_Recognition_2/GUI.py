@@ -64,7 +64,7 @@ class GUI:
         cv2.moveWindow(WINDOW, 600, 360)  # do this dynamically
         cv2.resizeWindow(WINDOW, 600, 500)
 
-    def set_window_size(self, frame, camera):
+    def set_window_size(self, frame):
         self.window_width = frame.shape[0]
         self.window_height = frame.shape[0]
         cv2.resizeWindow(WINDOW, self.window_width, self.window_height)
