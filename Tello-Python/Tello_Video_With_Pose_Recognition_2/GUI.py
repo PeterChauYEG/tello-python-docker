@@ -146,6 +146,7 @@ class GUI:
                 2)
 
     def update_image(self, frame, draw_skeleton_flag, points, ai):
+    # def update_image(self, frame):
         if frame is not None:
             draw_pose(frame, ai, draw_skeleton_flag, points)
             self.draw_info(frame, ai)

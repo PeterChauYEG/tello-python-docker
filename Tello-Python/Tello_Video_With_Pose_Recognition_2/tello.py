@@ -2,7 +2,7 @@ import socket
 import threading
 import numpy as np
 import libh264decoder
-
+import cv2
 
 class Tello:
     """Wrapper class to interact with the Tello drone."""
@@ -103,7 +103,8 @@ class Tello:
                 # end of frame
                 if len(res_string) != 1460:
                     for frame in self._h264_decode(packet_data):
-                        self.frame = frame
+                        self.frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
                     packet_data = ""
 
             except socket.error as exc:

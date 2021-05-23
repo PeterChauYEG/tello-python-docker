@@ -12,8 +12,9 @@ class Robot:
         self.frame = None
         self.main = None
         self.stop_event = None
-        self.distance = 1  # default distance for 'move' cmd
+        self.distance = 0.1  # default distance for 'move' cmd
         self.degree = 30  # default degree for 'cw' or 'ccw' cmd
+        self.frame_counter = 0
 
         self.gui = GUI()
         self.ai = AI()
@@ -21,8 +22,8 @@ class Robot:
         self.camera = camera
         self.drone = drone
 
-        self.auto_takeoff_thread = threading.Thread(target=self._autoTakeoff)
-        self.sending_command_thread = threading.Thread(target=self._sendingCommand)
+        self.auto_takeoff_thread = threading.Thread(target=self.auto_take_off)
+        self.sending_command_thread = threading.Thread(target=self.sending_command)
 
     def start(self):
         # get first frame
@@ -30,16 +31,21 @@ class Robot:
 
         # main loop
         while True:
+            self.frame_counter = self.frame_counter + 1
+            # time.sleep(0.03)
+
             # initial setup
-            if frame is not None:
-                if self.gui.window_width is None or self.gui.center_box_points is None:
-                    self.gui.set_window_size(frame)
-                    self.gui.get_center_box_points(frame)
+            if self.frame_counter > 5:
+                if frame is not None:
+                    if self.gui.window_width is None or self.gui.center_box_points is None:
+                        self.gui.set_window_size(frame)
+                        self.gui.get_center_box_points(frame)
 
-                self.process_feed(self.pose, self.ai, self.gui, frame)
+                    self.process_feed(self.pose, self.ai, self.gui, frame)
+                    self.frame_counter = 0
 
-            # get next frame
-            frame = self.camera.get_frame()
+                # get next frame
+                frame = self.camera.get_frame()
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 self.on_close()
@@ -57,26 +63,27 @@ class Robot:
         ai.get_center_human_cmd()
 
         gui.update_image(frame, gui_skeleton_flag, points, ai)
+        # gui.update_image(frame)
 
         # handle human seeking
         if ai.drone_cmd == 'x-dec':
-            self.telloMoveLeft()
+            self.tello_move_left()
         elif ai.drone_cmd == 'x-inc':
-            self.telloMoveRight()
+            self.tello_move_right()
         elif ai.drone_cmd == 'y-inc':
-            self.telloUp()
+            self.tello_up()
         elif ai.drone_cmd == 'y-dec':
-            self.telloDown()
+            self.tello_down()
 
         # handle pose cmds
         if ai.current_pose == 'left_arm_flat':
-            self.telloTakeOff()
+            self.tello_take_off()
         elif ai.current_pose == 'right_arm_flat':
-            self.telloLanding()
+            self.tello_landing()
 
         ai.reset_state()
 
-    def _sendingCommand(self):
+    def sending_command(self):
         """
         start a while loop that sends 'command' to tello every 5 second
         """
@@ -85,7 +92,7 @@ class Robot:
             self.drone.send_command('command')
             time.sleep(5)
 
-    def _autoTakeoff(self):
+    def auto_take_off(self):
         """
         Firstly,it will waiting for the response that will be sent by Tello if Tello
 
@@ -139,7 +146,7 @@ class Robot:
         # start the sendingCmd thread
         self.sending_command_thread.start()
 
-    def telloTakeOff(self):
+    def tello_take_off(self):
         """
         send the takeoff command to tello,and wait for the first response,
 
@@ -159,43 +166,43 @@ class Robot:
         else:
             print "battery low,please repalce with a new one"
 
-    def telloLanding(self):
+    def tello_landing(self):
         return self.drone.land()
 
-    def telloFlip_l(self):
+    def tello_flip_l(self):
         return self.drone.flip('l')
 
-    def telloFlip_r(self):
+    def tello_flip_r(self):
         return self.drone.flip('r')
 
-    def telloFlip_f(self):
+    def tello_flip_f(self):
         return self.drone.flip('f')
 
-    def telloFlip_b(self):
+    def tello_flip_b(self):
         return self.drone.flip('b')
 
-    def telloCW(self):
+    def tello_cw(self):
         return self.drone.rotate_cw(self.degree)
 
-    def telloCCW(self):
+    def tello_ccw(self):
         return self.drone.rotate_ccw(self.degree)
 
-    def telloMoveForward(self):
+    def tello_move_forward(self):
         return self.drone.move_forward(self.distance)
 
-    def telloMoveBackward(self):
+    def tello_move_backward(self):
         return self.drone.move_backward(self.distance)
 
-    def telloMoveLeft(self):
+    def tello_move_left(self):
         return self.drone.move_left(self.distance)
 
-    def telloMoveRight(self):
+    def tello_move_right(self):
         return self.drone.move_right(self.distance)
 
-    def telloUp(self):
+    def tello_up(self):
         return self.drone.move_up(self.distance)
 
-    def telloDown(self):
+    def tello_down(self):
         return self.drone.move_down(self.distance)
 
     def on_close(self):
