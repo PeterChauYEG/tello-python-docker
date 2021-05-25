@@ -116,6 +116,28 @@ Based on `https://github.com/dji-sdk/Tello-Python`
   - copy deps: `yarn copy-deps:2`
   - start: `cd ./Tello-Python/Tello_Video_With_Pose_Recognition_2 && python index.py`
   
+-----------
+
+## Tello local
+
+### ensure that your terminal has camera permissions but running these
+
+brew install ffmpeg
+ffmpeg -f avfoundation -list_devices true -i ""
+ffmpeg -f avfoundation -i "0:0" -vf  "crop=1024:768:400:800" -pix_fmt yuv420p -y -r 10 out.mov
+sudo killall VDCAssistant
+imagesnap -w 2 snapshot.png -d "HD Pro Webcam C920"
+
+## need
+- brew install wget
+- conda
+
+`yarn env:create`
+`yarn env:activate`
+`yarn env:install`
+`yarn start:local`
+
+
 
 ## References 
 https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc

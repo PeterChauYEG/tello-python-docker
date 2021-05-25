@@ -9,12 +9,16 @@
     "start:video-deps": "open -a Xquartz && socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:'$DISPLAY'",
 
     "start-container": "docker run -p 8889:8889 -p 11111:11111/udp -e DISPLAY=192.168.10.2:0 -v /tmp/.X11-unix:/tmp/.X11-unix:rw -v ${PWD}:/usr/src/app/ -it tello bash",
+    "start:local": "python ./Tello-Python/Tello_Video_With_Pose_Recognition_2/index-local.py",
 
     "copy-deps:video": "cp ../libh264decoder.so Tello-Python/Tello_Video && cp ../model/pose_iter_160000.caffemodel /usr/src/app/Tello-Python/Tello_Video/model/pose/mpi",
 
     "copy-deps:pose": "cp ../libh264decoder.so Tello-Python/Tello_Video_With_Pose_Recognition && cp ../model/pose_iter_160000.caffemodel /usr/src/app/Tello-Python/Tello_Video_With_Pose_Recognition/model/pose/mpi",
 
-    "copy-deps:2": "cp ../libh264decoder.so Tello-Python/Tello_Video_With_Pose_Recognition_2 && cp ../model/pose_iter_160000.caffemodel /usr/src/app/Tello-Python/Tello_Video_With_Pose_Recognition_2/model/pose/mpi"
+    "copy-deps:2": "cp ../libh264decoder.so Tello-Python/Tello_Video_With_Pose_Recognition_2 && cp ../model/pose_iter_160000.caffemodel /usr/src/app/Tello-Python/Tello_Video_With_Pose_Recognition_2/model/pose/mpi",
+    "env:create": "conda create --name cv2.7 python=2.7",
+    "env:activate": "conda activate cv2.7",
+    "env:install": "conda env update --file local.yml"
   },
   "repository": {
     "type": "git",
